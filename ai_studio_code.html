@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Farhan.store — Premium Deals</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet"/>
+  <style>
+    /* ===== RESET & ROOT (Keeping your existing variables) ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:        #0d0f14;
+      --surface:   #161b25;
+      --card:      #1c2333;
+      --card-h:    #1e2840;
+      --border:    #2a3347;
+      --accent:    #f4a232;
+      --accent2:   #e8761a;
+      --text:      #e8ecf4;
+      --muted:     #7a88a8;
+      --green:     #30c97c;
+      --red:       #e84545;
+      --radius:    14px;
+      --shadow:    0 8px 32px rgba(0,0,0,.45);
+      --trans:     all .32s cubic-bezier(.4,0,.2,1);
+    }
+
+    html { scroll-behavior: smooth; }
+    body  { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* ===== NAVBAR UPDATES ===== */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(13,15,20,.92);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 75px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -1px;
+    }
+    .nav-logo span { color: var(--text); }
+    
+    .nav-actions { display: flex; align-items: center; gap: 0.8rem; }
+    
+    /* New Nav Buttons */
+    .btn-text { background: none; border: none; color: var(--text); cursor: pointer; font-size: 0.9rem; font-weight: 600; }
+    .btn-outline { 
+        border: 1px solid var(--border); background: var(--surface); color: var(--text);
+        padding: 0.5rem 1rem; border-radius: var(--radius); cursor: pointer; transition: var(--trans);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ===== AUTH MODAL STYLES ===== */
+    .auth-form { display: none; }
+    .auth-form.active { display: block; }
+    .form-group { margin-bottom: 1.2rem; }
+    .form-group label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 0.4rem; }
+    .form-group input {
+        width: 100%; padding: 0.8rem; background: var(--card); border: 1px solid var(--border);
+        border-radius: 8px; color: var(--text); outline: none;
+    }
+    .form-group input:focus { border-color: var(--accent); }
+    .switch-auth { margin-top: 1rem; text-align: center; font-size: 0.85rem; color: var(--muted); }
+    .switch-auth span { color: var(--accent); cursor: pointer; font-weight: 600; }
+
+    /* ===== SUPPORT FLOATING BUTTON ===== */
+    .support-fab {
+        position: fixed; bottom: 2rem; left: 2rem; z-index: 90;
+        width: 56px; height: 56px; background: var(--accent);
+        border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        box-shadow: var(--shadow); cursor: pointer; transition: var(--trans);
+        font-size: 1.5rem; color: white;
+    }
+    .support-fab:hover { transform: scale(1.1) rotate(10deg); background: var(--accent2); }
+
+    /* Support Modal Specifics */
+    .support-item {
+        background: var(--card); padding: 1rem; border-radius: 8px; 
+        margin-bottom: 0.8rem; cursor: pointer; border: 1px solid var(--border);
+    }
+    .support-item:hover { border-color: var(--accent); }
+
+    /* (Rest of your existing CSS - Compacted for brevity) */
+    .nav-search { flex: 1; max-width: 400px; margin: 0 1.5rem; display: flex; }
+    .nav-search input { flex: 1; padding: .6rem 1rem; background: var(--surface); border: 1px solid var(--border); border-right: none; border-radius: var(--radius) 0 0 var(--radius); color: var(--text); outline: none; }
+    .nav-search button { padding: .6rem 1.2rem; background: var(--accent); border: none; border-radius: 0 var(--radius) var(--radius) 0; color: #fff; cursor: pointer; }
+    
+    .hero { background: linear-gradient(135deg, #0d0f14 0%, #111827 50%, #0d1520 100%); padding: 5rem 2rem 4rem; text-align: center; position: relative; overflow: hidden; }
+    .hero-badge { display: inline-block; background: rgba(244,162,50,.15); border: 1px solid rgba(244,162,50,.4); color: var(--accent); font-size: .78rem; font-weight: 600; padding: .35rem 1rem; border-radius: 50px; margin-bottom: 1.5rem; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 700; line-height: 1.1; margin-bottom: 1rem; }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+    .hero p { color: var(--muted); font-size: 1.05rem; max-width: 500px; margin: 0 auto 2rem; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.4rem; padding: 2rem; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: var(--trans); cursor: pointer; position: relative; }
+    .card:hover { transform: scale(1.03); border-color: var(--accent); }
+    .card-img { width: 100%; aspect-ratio: 1; background: var(--surface); display: flex; align-items:center; justify-content:center; font-size: 4rem; }
+    .card-body { padding: 1rem; }
+    .price-now  { font-size: 1.25rem; font-weight: 700; color: var(--text); }
+    .btn-add { width: 100%; padding: .6rem; border-radius: 8px; background: var(--accent); border: none; color: #fff; font-weight: 600; cursor: pointer; margin-top: 10px; }
+
+    .overlay { position:fixed; inset:0; background:rgba(0,0,0,.7); display:none; align-items:center; justify-content:center; z-index:200; backdrop-filter:blur(8px); }
+    .overlay.open { display:flex; }
+    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); width: 90%; max-width: 400px; padding: 2rem; box-shadow: var(--shadow); position: relative; }
+    .modal-close { position: absolute; top: 1rem; right: 1rem; background:none; border:none; color:var(--muted); font-size: 1.5rem; cursor:pointer; }
+    
+    #toast { position:fixed; bottom:2rem; right:2rem; z-index:300; background: var(--green); color:#fff; padding:.75rem 1.4rem; border-radius:var(--radius); transform:translateY(120px); opacity:0; transition: var(--trans); }
+    #toast.show { transform:translateY(0); opacity:1; }
+    footer { background: var(--surface); border-top:1px solid var(--border); text-align:center; padding:2rem; color:var(--muted); font-size:.82rem; margin-top:2rem; }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav>
+  <div class="nav-logo">Farhan<span>.store</span></div>
+  <div class="nav-search">
+    <input type="text" id="searchInput" placeholder="Search phones..." oninput="filterProducts()"/>
+    <button>🔍</button>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-text" onclick="openAuth('signin')">Sign In</button>
+    <button class="btn-outline" onclick="openAuth('signup')">Sign Up</button>
+    <button class="btn-outline" onclick="toggleCart()" style="display: flex; align-items: center; gap: 5px;">
+      🛒 <span id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-badge">💎 Premium Mobile Collection</div>
+  <h1>Find Your Next<br><em>Flagship Device</em></
